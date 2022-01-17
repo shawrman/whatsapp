@@ -1,6 +1,12 @@
+#define _WINSOCK_DEPRECATED_NO_WARNINGS
+
 #include "Server.h"
 #include "Client.h"
+#include <fstream>
+#include <string>
 #include <mutex>
+#pragma warning(disable:4996)
+
 #pragma once
 vector<Client*> clients;
 
@@ -42,7 +48,17 @@ void Server::serve(int port)
 
 	sa.sin_port = htons(port); // port that server will listen for
 	sa.sin_family = AF_INET;   // must be AF_INET
-	sa.sin_addr.s_addr = INADDR_ANY;    // when there are few ip's for the machine. We will use always "INADDR_ANY"
+	string line = "";
+	std::ifstream input_file("config.txt");
+	
+	getline(input_file, line);
+	
+	char str[9]; // declare a ptr pointer
+	strcpy(str, line.c_str());
+	char* ptr;
+	ptr = strtok(str, "=");
+	ptr = strtok(NULL, "=");
+	sa.sin_addr.s_addr = inet_addr(ptr);    // when there are few ip's for the machine. We will use always "INADDR_ANY"
 
 	// Connects between the socket and the configuration (port and etc..)
 	if (bind(_serverSocket, (struct sockaddr*)&sa, sizeof(sa)) == SOCKET_ERROR)
