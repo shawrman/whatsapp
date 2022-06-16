@@ -25,10 +25,10 @@ int main()
 	{
 		string line = "";
 		std::ifstream input_file("config.txt");
-		WSAInitializer wsaInit;		// so not destroy the port
+		WSAInitializer wsaInit;		// have to be before using windwos scokets
 		getline(input_file, line);
 		getline(input_file, line);
-		char str[9]; // declare a ptr pointer
+		char str[9]; 
 		strcpy(str, line.c_str());
 		char* ptr;
 		ptr = strtok(str , "=");
@@ -36,9 +36,9 @@ int main()
 		Server server(atoi(ptr));
 	
 	}
-	catch (std::exception& e)
+	catch (...)
 	{
-		std::cout << "Error occured: " << e.what() << std::endl;
+		std::cout << "Error occured: "  << std::endl;
 	}
 	system("PAUSE");
 	return 0;
