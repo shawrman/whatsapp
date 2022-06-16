@@ -1,5 +1,5 @@
 # whatsapp
 
-multithreading server for chating
+multithreading server for chatting
 
 server side to a premade client
